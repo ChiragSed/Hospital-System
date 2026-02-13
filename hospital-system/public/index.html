@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Hospital System</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar">
+      <a class="brand" href="#home"><i class="fa-solid fa-hospital"></i>CarePoint Hospital</a>
+      <div class="nav-links">
+        <a href="#home"><i class="fa-solid fa-house"></i>Home</a>
+        <a href="#about"><i class="fa-solid fa-circle-info"></i>About</a>
+        <a href="#leadership"><i class="fa-solid fa-user-tie"></i>Leadership</a>
+        <a href="#doctors"><i class="fa-solid fa-user-doctor"></i>Doctors</a>
+        <a href="#contact"><i class="fa-solid fa-phone"></i>Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="home" class="card">
+      <div class="split">
+        <div>
+          <h1 class="page-title"><i class="fa-solid fa-hospital"></i> Welcome to CarePoint Hospital</h1>
+          <p class="page-subtitle">A complete appointment and report management portal for patients and doctors.</p>
+          <div class="row-actions">
+            <a class="btn" href="../auth/patient-login.html"><i class="fa-solid fa-user"></i>Patient Login</a>
+            <a class="btn btn-secondary" href="../auth/doctor-login.html"><i class="fa-solid fa-user-doctor"></i>Doctor Login</a>
+          </div>
+        </div>
+        <div>
+          <img class="section-image" src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=1400&q=80" alt="Modern hospital building">
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="card">
+      <div class="split">
+        <div>
+          <h2 class="section-title"><i class="fa-solid fa-circle-info"></i> About</h2>
+          <p><strong>Mission:</strong> Deliver trusted, patient-first care with fast digital coordination between doctors and patients.</p>
+          <p><strong>Vision:</strong> Build a seamless healthcare experience with modern, secure, and accessible systems.</p>
+        </div>
+        <div class="about-images">
+          <img class="section-image" src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1400&q=80" alt="Doctors in a hospital discussing patient care">
+          <img class="section-image" src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80" alt="Hospital team aligned with vision and mission">
+        </div>
+      </div>
+    </section>
+
+    <section id="leadership" class="card">
+      <div class="split">
+        <div>
+          <h2 class="section-title"><i class="fa-solid fa-user-tie"></i> Leadership</h2>
+          <span class="feature-tag">FEATURED LEADER</span>
+          <p><strong>Dr. Asha Raman</strong>, <span class="highlight">Chairperson</span>, leads clinical quality, patient safety, and digital transformation at CarePoint Hospital.</p>
+          <p>Her focus is better outcomes through strong clinical governance and efficient hospital operations.</p>
+        </div>
+        <div>
+          <img class="section-image-circle" src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?auto=format&fit=crop&w=900&q=80" alt="Chairperson portrait">
+        </div>
+      </div>
+    </section>
+
+    <section id="doctors" class="card">
+      <h2 class="section-title"><i class="fa-solid fa-user-doctor"></i> Doctors</h2>
+      <p class="muted">Featured doctors from our team.</p>
+      <div id="doctor-preview" class="grid grid-3"></div>
+      <div class="row-actions">
+        <a class="btn" href="doctors.html"><i class="fa-solid fa-arrow-right"></i>See More Doctors</a>
+      </div>
+    </section>
+
+    <section id="contact" class="card">
+      <h2 class="section-title"><i class="fa-solid fa-phone"></i> Contact</h2>
+      <p><i class="fa-solid fa-envelope"></i> support@carepoint.test</p>
+      <p><i class="fa-solid fa-phone"></i> +1-555-0199</p>
+      <p><i class="fa-solid fa-location-dot"></i> 101 Health Avenue, City Center</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">&copy; 2026 Hospital System | Built by [Your Name]</div>
+  </footer>
+
+  <script>
+    async function loadDoctorPreview() {
+      const box = document.getElementById("doctor-preview");
+      const res = await fetch("../api/doctors.php");
+      const data = await res.json();
+
+      if (!data.success || !data.doctors || data.doctors.length === 0) {
+        box.innerHTML = '<p class="muted">No doctors available right now.</p>';
+        return;
+      }
+
+      const topDoctors = data.doctors.slice(0, 3);
+      box.innerHTML = topDoctors.map(d => `
+        <article class="card">
+          <h3><i class="fa-solid fa-user-doctor"></i> ${d.full_name}</h3>
+          <p><strong>Specialization:</strong> ${d.specialization || "General Medicine"}</p>
+        </article>
+      `).join("");
+    }
+
+    loadDoctorPreview();
+  </script>
+</body>
+</html>
